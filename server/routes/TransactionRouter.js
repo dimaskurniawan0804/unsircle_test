@@ -5,6 +5,7 @@ const authentication = require('../middlewares/authentication');
 
 router.use(authentication)
 router.post('/', transactionController.addTransaction)
+router.get('/', transactionController.fetchAllTransaction)
 router.get('/:companyId', transactionController.findTransactionInAWeek)
 router.delete('/:transactionId', transactionController.deleteTransactionById)
 router.put('/:transactionId', transactionController.updateTransactionById)

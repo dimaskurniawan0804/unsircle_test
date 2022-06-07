@@ -44,6 +44,35 @@ class transactionController {
         }
     }
 
+    static async fetchAllTransaction(req, res, next) {
+        try {
+            const response = await Transaction.findAll({
+                include: [
+                    {
+                        model: Item,
+                        attributes: {
+                            exclude: ["id", "createdAt", "updatedAt", "quantity"]
+                        }
+                    },
+                    {
+                        model: Company,
+                        attributes: {
+                            exclude: ["id", "createdAt", "updatedAt"]
+                        }
+                    },
+                ],
+                attributes: {
+                    exclude: ["createdAt", "updatedAt", "ItemId", "CompanyId"]
+                }
+            })
+
+            res.status(200).json(response)
+
+        } catch (error) {
+            next(error)
+        }
+    }
+
     static async findTransactionInAWeek(req, res, next) {
         const { companyId } = req.params
         try {

@@ -50,6 +50,7 @@ class userController {
             const access_token = createToken(payload)
 
             res.status(200).json({
+                name: user.name,
                 id: user.id,
                 role: user.role,
                 access_token,
