@@ -29,9 +29,6 @@ export default function FormMenu() {
     return (
         <div className="flex justify-center items-center mx-auto h-screen bg-red-500">
             <div className="w-full max-w-xs">
-                <div className="mb-2 font-semibold text-4xl text-white outline-1 text">
-                    Add New Item
-                </div>
                 <form className="bg-white shadow-md rounded-xl px-8 pt-6 pb-8 mb-4">
                     <div className="mb-4 font-semibold text-lg">
                         Add New Menu

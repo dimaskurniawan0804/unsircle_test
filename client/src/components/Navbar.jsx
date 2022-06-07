@@ -6,9 +6,11 @@ export default function Navbar() {
     const toItemList = () => {
         navigate('/allItem')
     }
-    const toHome = () => {
-        navigate('/')
+
+    const toCompanyList = () => {
+        navigate('/company')
     }
+
     const doLogout = () => {
         localStorage.clear()
         navigate('/login')
@@ -39,7 +41,7 @@ export default function Navbar() {
                     <div>
                         <ul className="flex">
                             <li className="text-white mx-1"><button className="border-2 p-1 w-36" onClick={toItemList}>Item</button></li>
-                            <li className="text-white mx-1"><button className="border-2 p-1 w-36" onClick={toCategoryForm}>Add Company</button></li>
+                            <li className="text-white mx-1"><button className="border-2 p-1 w-36" onClick={toCompanyList}>Company</button></li>
                             <li className="text-white mx-1"><button className="border-2 p-1 w-36" onClick={toCategory}>Add Transaction</button></li>
                             <li className="text-white mx-1"><button className="border-2 p-1 w-36" onClick={doLogout}>Logout</button></li>
 

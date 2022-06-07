@@ -31,6 +31,16 @@ class companyController {
         }
     }
 
+    static async fetchCompanyById(req, res, next) {
+        const { companyId } = req.params
+        try {
+            const response = await Company.findByPk(companyId)
+            res.status(200).json(response)
+        } catch (error) {
+            next(error)
+        }
+    }
+
     static async deleteCompanyById(req, res, next) {
         const { companyId } = req.params
         try {

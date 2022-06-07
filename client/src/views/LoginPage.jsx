@@ -22,7 +22,7 @@ export default function LoginPage() {
                 if (!isLogin) {
                     throw new Error("error register")
                 } else {
-                    navigate('/')
+                    navigate('/allItem')
                 }
             })
     }
