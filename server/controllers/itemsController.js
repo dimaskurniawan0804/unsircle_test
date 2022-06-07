@@ -1,3 +1,4 @@
+const res = require('express/lib/response');
 const { Company, Item, User, Transaction } = require('../models/index');
 
 class itemController {
@@ -42,9 +43,17 @@ class itemController {
     static async deleteItemById(req, res, next) {
         const { itemId } = req.params
         try {
-            const findItem = await Company.findByPk(itemId)
+            const findItem = await Item.findByPk(itemId)
             if (!findItem) {
                 throw { name: `Item not found` }
+            }
+            const findTransaction = await Transaction.findOne({
+                where: {
+                    ItemId: itemId
+                }
+            })
+            if (findTransaction) {
+                throw { name: "cannot delete this item, because item already in Transaction" }
             }
             await Item.destroy({
                 where: {
@@ -54,6 +63,17 @@ class itemController {
             res.status(200).json({
                 message: `success delete item with id ${itemId}`
             })
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    static async getItemById(req, res, next) {
+        const { itemId } = req.params
+        try {
+            const response = await Item.findByPk(itemId)
+            console.log(response);
+            res.status(200).json(response)
         } catch (error) {
             next(error)
         }

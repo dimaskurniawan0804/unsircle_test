@@ -32,6 +32,9 @@ const errorHandler = async (error, req, res, next) => {
         case "Insufficient number of items available (transaction)":
             res.status(400).json({ message: error.name })
             break;
+        case "cannot delete this item, because item already in Transaction":
+            res.status(400).json({ message: error.name })
+            break;
         case "SequelizeForeignKeyConstraintError":
             res.status(401).json({ message: "Fail to create / update item" })
             break;
