@@ -2,34 +2,34 @@ import Navbar from '../components/Navbar.jsx'
 import { useSelector, useDispatch } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom"
-import { getAllItem, deleteItem, getItemById } from '../store/actions/itemActions.js'
+import { getAllCompany, deleteCompany, updateCompanyById, getCompanyById } from '../store/actions/companyAction.js'
 
-export default function ItemDashboard() {
-    const { allItem, isLoading } = useSelector((state) => state.item)
+
+export default function CompanyDashboard() {
+    const { allCompany, isLoading } = useSelector((state) => state.company)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     useEffect(() => {
-        dispatch(getAllItem())
+        dispatch(getAllCompany())
     }, [])
 
-    const toUpdateItem = (itemId) => {
-        // navigate(`/updateItem/${itemId}`)
-        dispatch(getItemById(itemId))
+    const toUpdateCompany = (companyId) => {
+        dispatch(getCompanyById(companyId))
         setTimeout(() => {
-            navigate(`/updateItem/${itemId}`)
+            navigate(`/updateCompany/${companyId}`)
         }, 1000)
     }
 
-    const doDeleteItem = (itemId) => {
-        dispatch(deleteItem(itemId))
+    const doDeleteCompany = (companyId) => {
+        dispatch(deleteCompany(companyId))
             .then((data) => {
-                navigate('/allItem')
+                navigate('/company')
                 console.log(data);
             })
     }
 
-    const toAddItem = () => {
-        navigate('/addItem')
+    const toAddCompany = () => {
+        navigate('/addCompany')
     }
     if (isLoading) {
         return (
@@ -42,13 +42,13 @@ export default function ItemDashboard() {
 
             <div className=''>
                 <div className='my-6'>
-                    <h1 className='font-bold text-4xl'>Item List</h1>
+                    <h1 className='font-bold text-4xl'>Company List</h1>
                 </div>
                 <div className='mb-1 flex justify-start'>
                     <button
-                        onClick={toAddItem}
-                        className='bg-blue-500 w-20 mx-1 border-2 rounded-md font-semibold'>
-                        Add Item
+                        onClick={toAddCompany}
+                        className='bg-blue-500 w-32 mx-1 border-2 rounded-md font-semibold'>
+                        Add Company
                     </button>
                 </div>
                 <div>
@@ -56,23 +56,21 @@ export default function ItemDashboard() {
                         <thead className='w-screen border-2'>
                             <tr>
                                 <th>Id</th>
-                                <th>Item Name</th>
-                                <th>Item Quantity</th>
+                                <th>Company Name</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {allItem.data.map((item, index) => (
+                            {allCompany.data.map((company, index) => (
                                 <tr>
-                                    <td>{item.id}</td>
-                                    <td>{item.name}</td>
-                                    <td>{item.quantity}</td>
+                                    <td>{company.id}</td>
+                                    <td>{company.name}</td>
                                     <td>
                                         <button type="button"
-                                            onClick={() => doDeleteItem(item.id)}
+                                            onClick={() => doDeleteCompany(company.id)}
                                             className='bg-red-500 w-20 mx-1 border-2 rounded-md font-semibold'>Delete</button>
                                         <button
-                                            onClick={() => toUpdateItem(item.id)}
+                                            onClick={() => toUpdateCompany(company.id)}
                                             className='bg-yellow-500 w-20 mx-1 border-2 rounded-md font-semibold'>Update</button>
                                     </td>
                                 </tr>

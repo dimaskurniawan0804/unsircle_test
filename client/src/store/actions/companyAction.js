@@ -1,62 +1,67 @@
-import { POST_NEW_ITEM, GET_ALL_ITEM, DELETE_ITEM, UPDATE_ITEM, GET_ITEM_BY_ID } from './actionType'
+import { GET_ALL_COMPANY, POST_NEW_COMPANY, DELETE_COMPANY, UPDATE_COMPANY, GET_COMPANY_BY_ID } from './actionType'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 const baseUrl = process.env.REACT_APP_URL
 
-export const newItem = (payload) => {
+export const allCompany = (payload) => {
     return {
-        type: POST_NEW_ITEM,
+        type: GET_ALL_COMPANY,
         payload
     }
 }
-export const allItem = (payload) => {
+export const newCompany = (payload) => {
     return {
-        type: GET_ALL_ITEM,
-        payload
-    }
-}
-export const deletedItem = (payload) => {
-    return {
-        type: DELETE_ITEM,
+        type: POST_NEW_COMPANY,
         payload
     }
 }
 
-export const updatedItem = (payload) => {
+export const selectedCompany = (payload) => {
     return {
-        type: UPDATE_ITEM,
-        payload
-    }
-}
-export const selectedItem = (payload) => {
-    return {
-        type: GET_ITEM_BY_ID,
+        type: GET_COMPANY_BY_ID,
         payload
     }
 }
 
 
 
-export function postnewItem(itemData) {
-    console.log(itemData);
+export function getAllCompany() {
     return async (dispatch) => {
         try {
             const response = await axios({
-                url: `${baseUrl}/items`,
+                url: `${baseUrl}/company`,
+                method: "GET",
+                headers: {
+                    access_token: localStorage.getItem("user_token")
+                },
+            })
+
+            return dispatch(allCompany({ allCompany: response, isLoading: false }))
+        } catch (error) {
+            console.log(error);
+        }
+    }
+}
+
+export function postnewCompany(companyData) {
+    return async (dispatch) => {
+        try {
+            const response = await axios({
+                url: `${baseUrl}/company`,
                 method: "POST",
                 headers: {
                     access_token: localStorage.getItem("user_token")
                 },
-                data: itemData
+                data: companyData
             })
 
             Swal.fire({
                 title: 'Success!',
-                text: `Success post new item`,
+                text: `Success post new company`,
                 icon: 'success',
                 confirmButtonText: 'ok'
             })
-            return dispatch(newItem({ newItem: true }))
+            return dispatch(newCompany({ newCompany: true }))
         } catch (error) {
             console.log(error);
             Swal.fire({
@@ -69,16 +74,16 @@ export function postnewItem(itemData) {
     }
 }
 
-export function deleteItem(itemId) {
-    console.log(itemId, "<<<<");
+export function deleteCompany(companyId) {
+    console.log(companyId, "<<<<");
     return async (dispatch) => {
         try {
-            dispatch(allItem({ isLoading: true }))
+            dispatch(allCompany({ isLoading: true }))
             const response = await axios({
-                url: `${baseUrl}/items/${itemId}`,
+                url: `${baseUrl}/company/${companyId}`,
                 method: "DELETE",
             })
-            dispatch(getAllItem())
+            dispatch(getAllCompany())
         } catch (error) {
             console.log(error);
             Swal.fire({
@@ -87,59 +92,41 @@ export function deleteItem(itemId) {
                 icon: 'error',
                 confirmButtonText: 'Cool'
             })
-            dispatch(getAllItem())
+            dispatch(getAllCompany())
         }
     }
 }
 
-export function getAllItem() {
+export function getCompanyById(companyId) {
     return async (dispatch) => {
         try {
+            dispatch(selectedCompany({ isLoading: true }))
             const response = await axios({
-                url: `${baseUrl}/items`,
+                url: `${baseUrl}/company/${companyId}`,
                 method: "GET",
                 headers: {
                     access_token: localStorage.getItem("user_token")
                 },
             })
-
-            return dispatch(allItem({ allItem: response, isLoading: false }))
+            return dispatch(selectedCompany({ companyById: response, isLoading: false }))
         } catch (error) {
             console.log(error);
         }
     }
 }
 
-export function getItemById(itemId) {
-    return async (dispatch) => {
-        try {
-            dispatch(selectedItem({ isLoading: true }))
-            const response = await axios({
-                url: `${baseUrl}/items/${itemId}`,
-                method: "GET",
-                headers: {
-                    access_token: localStorage.getItem("user_token")
-                },
-            })
-            return dispatch(selectedItem({ itemById: response, isLoading: false }))
-        } catch (error) {
-            console.log(error);
-        }
-    }
-}
-
-export function updateItemById(itemId, itemData) {
-    console.log(itemId, "===itemId");
-    console.log(itemData, "===itemData");
+export function updateCompanyById(companyId, companyData) {
+    console.log(companyId, "<<<<id");
+    console.log(companyData, "<<<<data");
     return async (dispatch) => {
         try {
             const response = await axios({
-                url: `${baseUrl}/items/${itemId.itemId}`,
+                url: `${baseUrl}/company/${companyId.companyId}`,
                 method: "PUT",
                 headers: {
                     access_token: localStorage.getItem("user_token")
                 },
-                data: itemData
+                data: companyData
             })
             return response
         } catch (error) {
@@ -147,10 +134,3 @@ export function updateItemById(itemId, itemData) {
         }
     }
 }
-
-
-
-
-
-
-
