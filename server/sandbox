@@ -1,0 +1,8 @@
+sequelize model:create --name User --attributes name:string,email:string,password:string,role:string
+
+sequelize model:create --name Item --attributes name:string,quantity:integer
+
+sequelize model:create --name Company --attributes name:string
+
+sequelize model:create --name Transaction --attributes UserId:integer,ItemId:integer,CompanyId:integer
+
